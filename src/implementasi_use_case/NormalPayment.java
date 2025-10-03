@@ -11,6 +11,16 @@ public class NormalPayment extends Payment{
         return true;
     }
 
+    public void setAmount(double amount)
+    {
+        this.amount = amount;
+    }
+
+
+    public double getAmount() {
+        return this.amount;
+    }
+
     @Override
     public void calculateFee()
     {

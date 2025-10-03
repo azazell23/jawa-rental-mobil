@@ -3,17 +3,13 @@ package implementasi_use_case;
 import java.time.LocalDate;
 
 public class LatePayment extends Payment {
-    private double baseAmount;
     private double lateFee;
-    private double totalAmount;
     private LocalDate dueDate;
     private LocalDate returnDate;
 
-    public LatePayment(double baseAmount, LocalDate dueDate, LocalDate returnDate)
+    public LatePayment(LocalDate dueDate, LocalDate returnDate)
     {
-        this.baseAmount = baseAmount;
         this.lateFee = 0;
-        this.totalAmount = baseAmount;
         this.dueDate = dueDate;
         this.returnDate = returnDate;
     }
@@ -34,12 +30,11 @@ public class LatePayment extends Payment {
         }
 
         this.lateFee = daysLate * 50000;
-        this.totalAmount = this.baseAmount + this.lateFee;
     }
 
-    public double getTotalAmount()
+    public double getLateFee()
     {
-        return this.totalAmount;
+        return this.lateFee;
     }
 
 

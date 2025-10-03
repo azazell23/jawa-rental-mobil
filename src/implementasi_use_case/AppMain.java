@@ -47,6 +47,7 @@ public class AppMain {
                     String renterConfirmation = scanner.next();
                     if (renterConfirmation.equalsIgnoreCase("yes"))
                     {
+                        payment.setAmount(rentalDays * selectedCar.getRentalPrice());
                         if (renter.rentCar(rentDate, dueDate, selectedCar, payment))
                         {
                             System.out.println("You have successfully rented the car. Thank you for the purchase!");
@@ -83,9 +84,9 @@ public class AppMain {
                         String returnDateInput = scanner.next();
                         LocalDate returnDate = LocalDate.parse(returnDateInput);
              
-                        LatePayment payment = new LatePayment(currentRent.getCar().getRentalPrice(), currentRent.getDueDate(), returnDate);
+                        LatePayment payment = new LatePayment(currentRent.getDueDate(), returnDate);
                         payment.calculateFee();
-                        System.out.println("Total fee have to pay: " + payment.getTotalAmount());
+                        System.out.println("Total fine you have to pay: " + payment.getLateFee());
 
                         if(renter.returnCar(returnDate, currentRent.getCar(), payment))
                         {
