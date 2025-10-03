@@ -1,49 +1,42 @@
 package implementasi_use_case;
 
+import java.time.LocalDate;
+
 public class Renter extends User {
-    RentedCarList rentedCars = new RentedCarList();
+    RentList rentList = new RentList();
 
     public Renter(String name) {
         super(name);
     }
 
     // fungsi menyewa mobil
-    public boolean rentCar(Car car)
+    public boolean rentCar(LocalDate rentDate, LocalDate dueDate, Car car, Payment payment)
     {
-        car.setAvailable(false);
-        if(rentedCars.addCar(car))
+        if (car.getAvailable())
         {
+            payment.pay();
+            this.rentList.addRent(new Rent(rentDate, dueDate, car, payment));
             return true;
         }
-        return false;   
-    }
-    
-    // fungsi mengembalikan mobil yang disewa
-    public boolean returnCar(Car car) {
-    int foundIndex = -1;
-    for (int i = 0; i < rentedCars.getTotalCars(); i++) {
-        if (rentedCars.getCars()[i] == car) {
-            foundIndex = i;
-            break;
-        }
-    }
-    if (foundIndex != -1) {
-        for (int i = foundIndex; i < rentedCars.getTotalCars() - 1; i++) {
-            rentedCars.getCars()[i] = rentedCars.getCars()[i + 1];
-        }
-        rentedCars.getCars()[rentedCars.getTotalCars() - 1] = null;
-        rentedCars.totalCars--;
-
-        car.setAvailable(true);
-        return true;
+        return false;
     }
 
-    return false;
-}
-
-
-    public RentedCarList getRentedCars()
+    public boolean returnCar(LocalDate returnDate, Car car, Payment payment)
     {
-        return rentedCars;
+        for (int i = 0; i < this.rentList.getTotalRents(); i++)
+        {
+            if (this.rentList.getRents()[i].getCar() == car)
+            {
+                payment.pay();
+                this.rentList.removeRent(this.rentList.getRents()[i]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public RentList getRentList()
+    {
+        return this.rentList;
     }
 }
